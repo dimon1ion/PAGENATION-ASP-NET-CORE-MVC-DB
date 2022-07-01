@@ -1,0 +1,77 @@
+﻿@model PageView
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+
+    <form asp-action="Index" asp-controller="Home" method="get"> @*Отправить данные вместе от формы номер текущей страницы невозможно*@
+        <input type="number" asp-for="@Model.Size" />
+        <button type="submit">Change</button>
+    </form>
+
+    @*<input type="number" asp-for="@Model.Size" />*@
+    @*<button onclick="location.href='@Url.Action("Index", new { size=Model.Size, page = Model.Page})'">Change</button>*@
+
+
+    @*@foreach (User user in Model.Users)
+        {
+        <div style="border: 1px solid #000000">
+            <p>@user.Name @user.SurName @user.Age</p>
+        </div>
+        }*@
+
+    <table>
+        <thead>
+            <tr>
+                <td onclick="location.href='@Url.Action("Index", new { size=Model.Size, sortbyName=true, page = Model.Page})'">
+                    Name
+                </td>
+                <td onclick="location.href='@Url.Action("Index", new { size=Model.Size, sortbySurname = true, page = Model.Page})'">
+                    Surname
+                </td>
+                <td onclick="location.href='@Url.Action("Index", new { size=Model.Size, sortbyAge = true, page = Model.Page})'">
+                    Age
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (User user in Model.Users)
+            {
+                <tr>
+                    <td>
+                        @user.Name
+                    </td>
+                    <td>
+                        @user.SurName
+                    </td>
+                    <td>
+                        @user.Age
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="pages d-flex flex-row justify-content-center align-items-center">
+        @if (Model.Page > 1)
+        {
+            <button class="btn btn-primary"
+                    onclick="location.href='@Url.Action("Index", new { size = Model.Size, page = Model.Page - 1})'">
+                &lArr;
+            </button>
+        }
+        <p class="m-0 mx-2">@Model.Page/@Model.Pages</p>
+        @if (Model.Page < Model.Pages)
+        {
+            <button class="btn btn-primary"
+                    onclick="location.href='@Url.Action("Index", new { size = Model.Size, page = Model.Page + 1})'">
+                &rArr;
+            </button>
+        }
+    </div>
+
+    @*@Html.ActionLink("")*@
+
+</div>
